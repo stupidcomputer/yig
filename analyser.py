@@ -1,5 +1,5 @@
 import leglib
-import fitz
 
-leglib.PdfParser(fitz.open("YIGVolunteerBook2024.pdf")).parse()
-leglib.PdfParser.from_filename("YIGVolunteerBook2024.pdf").parse()
+parser = leglib.parsers.HSYIGPdfParser.from_filename("YIGVolunteerBook2024.pdf")
+parser.parse()
+print([i.bill_text for i in parser.bills])
