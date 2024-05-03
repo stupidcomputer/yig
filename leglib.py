@@ -1,6 +1,18 @@
 import fitz
 import math
 
+from enum import StrEnum, auto
+
+class CCEColors(StrEnum):
+    Red = "Red"
+    White = "White",
+    Blue = "Blue"
+
+class CCEAssemblies(StrEnum):
+    Senate = "Senate",
+    House = "House",
+    GeneralAssembly = "GeneralAssembly"
+
 from typing import Any
 
 class FitzBlockWrapper:
@@ -37,17 +49,19 @@ class BillCode:
 
         self.color = assemblycode[0]
         if self.color == "R":
-            self.color = "red"
+            self.color = CCEColors.Red
         elif self.color == "W":
-            self.color = "white"
+            self.color = CCEColors.White
         elif self.color == "B":
-            self.color = "blue"
+            self.color = CCEColors.Blue
 
         assemblydivision = assemblycode[1]
         if assemblydivision == "S":
-            self.assembly = "senate"
+            self.assembly = CCEAssemblies.Senate
         elif assemblydivision == "H":
-            self.assembly = "house"
+            self.assembly = CCEAssemblies.House
+        elif assemblydivision == "G":
+            self.assembly = CCEAssemblies.GeneralAssembly
 
         self.year = int(dashsplit[0])
         self.committee = int(dashsplit[1])
@@ -76,7 +90,8 @@ class Bill:
         sponsors: str,
         subcommittee: str,
         school: str,
-        bill_text: str
+        bill_text: list[str],
+        title: str
     ):
         if isinstance(code, str):
             self.code = BillCode(code)
@@ -87,6 +102,7 @@ class Bill:
         self.subcommittee = subcommittee.rstrip()
         self.school = school.rstrip()
         self.bill_text = bill_text
+        self.title = title
 
 class PdfParser:
     def __init__(self, document: fitz.Document):
@@ -211,16 +227,47 @@ class PdfParser:
                 bill_code, _, _, subcommittee, sponsors, school, *bill_text = splitted_item
             except ValueError:
                 continue
+
+            bill_text = ' '.join(bill_text)
+
+            print(type(bill_text))
+
+            pretty_printed = self._pretty_print_bill_text(bill_text)
             bills.append(Bill(
                 code=bill_code,
                 subcommittee=subcommittee,
                 sponsors=sponsors,
                 school=school,
-                bill_text=' '.join(bill_text)
+                bill_text=pretty_printed["bill_array"],
+                title=pretty_printed["title"]
             ))
 
-        for bill in bills:
-            print(bill.code)
+        self.bills = bills
+
+    @staticmethod
+    def _find_first_line_number(bill_arrays):
+        for i in range(len(bill_arrays)):
+            try:
+                if str(int(bill_arrays[i])) == bill_arrays[i]:
+                    return i
+            except ValueError:
+                pass
+
+    def _pretty_print_bill_text(self, bill_text: str):
+        replaced = bill_text.replace("� ", "\n")
+        replaced = replaced.split('\n')
+
+        replaced = [i.rstrip().lstrip() for i in replaced]
+
+        first_line_number = self._find_first_line_number(replaced)
+
+        title = ' '.join(replaced[:first_line_number])
+        rebuilt = replaced[first_line_number:][1::2]
+
+        return {
+            "title": title.lstrip(),
+            "bill_array": rebuilt
+        }
 
     @classmethod
     def from_filename(cls, filename: str) -> Any: # TODO: fix this so it shows PdfParser
