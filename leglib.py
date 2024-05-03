@@ -53,6 +53,14 @@ class BillCode:
         self.committee = int(dashsplit[1])
         self.docketplacement = int(dashsplit[2])
 
+        self.stringrep = self.color[0].upper() + \
+            self.assembly[0].upper() + \
+            "B/{}-{}-{}".format(
+                str(self.year),
+                str(self.committee),
+                str(self.docketplacement)
+            )
+
     def __str__(self):
         return "{} {} - {}-{}-{}".format(
             self.color,
@@ -67,7 +75,8 @@ class Bill:
         code: str | BillCode,
         sponsors: str,
         subcommittee: str,
-        school: str
+        school: str,
+        bill_text: str
     ):
         if isinstance(code, str):
             self.code = BillCode(code)
@@ -77,6 +86,7 @@ class Bill:
         self.sponsors = sponsors.rstrip()
         self.subcommittee = subcommittee.rstrip()
         self.school = school.rstrip()
+        self.bill_text = bill_text
 
 class PdfParser:
     def __init__(self, document: fitz.Document):
@@ -186,7 +196,7 @@ class PdfParser:
             page = self.document.load_page(page_number)
             block_info = self._get_block_info_from_page(page)
 
-            joined_blocks += block_info
+            joined_blocks += block_info[:-1] # remove the page number at the end of every page
 
         joined_blocks = self._remove_image_blocks(joined_blocks)
         joined_blocks = self._remove_coordinate_information(joined_blocks)
@@ -195,8 +205,23 @@ class PdfParser:
 
         splitted = self._split_list_by_element(joined_blocks, bill_header)
 
-        count = 0
-        for i in splitted:
-            if count < 20:
-                print(i)
-            count += 1
+        bills: list[Bill] = []
+        for splitted_item in splitted:
+            try:
+                bill_code, _, _, subcommittee, sponsors, school, *bill_text = splitted_item
+            except ValueError:
+                continue
+            bills.append(Bill(
+                code=bill_code,
+                subcommittee=subcommittee,
+                sponsors=sponsors,
+                school=school,
+                bill_text=' '.join(bill_text)
+            ))
+
+        for bill in bills:
+            print(bill.code)
+
+    @classmethod
+    def from_filename(cls, filename: str) -> Any: # TODO: fix this so it shows PdfParser
+        return cls(fitz.open(filename))
