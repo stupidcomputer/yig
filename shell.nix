@@ -3,5 +3,6 @@
     # nativeBuildInputs is usually what you want -- tools you need to run
     nativeBuildInputs = with pkgs; [
         buildPackages.python311Packages.pymupdf
+        buildPackages.python311Packages.flask
     ];
 }

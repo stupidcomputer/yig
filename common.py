@@ -3,12 +3,15 @@ from enum import StrEnum, auto
 class CCEColors(StrEnum):
     Red = "Red"
     White = "White",
-    Blue = "Blue"
+    Blue = "Blue",
+    Undefined = "Undefined", # some conferences don't have assemblies
+    Any = "Any" # for searching purposes
 
 class CCEAssemblies(StrEnum):
     Senate = "Senate",
     House = "House",
-    GeneralAssembly = "GeneralAssembly"
+    GeneralAssembly = "GeneralAssembly",
+    Any = "Any" # for searching purposes
 
 class BillCode:
     def __init__(self, text: str):
@@ -37,19 +40,20 @@ class BillCode:
         elif assemblydivision == "G":
             self.assembly = CCEAssemblies.GeneralAssembly
 
-        self.year = int(dashsplit[0])
+        # reverse y2k problem; but conference years are stored in YY, not YYYY form
+        self.year = int(dashsplit[0]) + 2000
         self.committee = int(dashsplit[1])
         self.docketplacement = int(dashsplit[2])
 
         self.stringrep = self.color[0].upper() + \
             self.assembly[0].upper() + \
             "B/{}-{}-{}".format(
-                str(self.year),
+                str(self.year - 2000),
                 str(self.committee),
                 str(self.docketplacement)
             )
 
-        self.conference: None | str = None # to be filled in with BillDB
+        self.conference: None | str = None # to be filled in with BookParser and friends
 
     def __str__(self):
         return "{} {} - {}-{}-{}".format(
@@ -79,3 +83,7 @@ class Bill:
         self.school = school.rstrip()
         self.bill_text = bill_text
         self.title = title
+
+    @property
+    def bill_text_concat(self):
+        return ''.join(self.bill_text)
