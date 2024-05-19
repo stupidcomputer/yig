@@ -155,20 +155,27 @@ class HSYIGPdfParser:
 
     def _pretty_print_bill_text(self, bill_text: str):
         replaced = bill_text.replace("�", "\n")
+        replaced = bill_text
         replaced = replaced.split('\n')
-
-        replaced = [i.rstrip().lstrip() for i in replaced]
+        replaced = [
+            i \
+                .replace('�', ' ') \
+                .rstrip() \
+                .lstrip() \
+            for i in replaced
+        ]
 
         first_line_number = self._find_first_line_number(replaced)
-
-        title = ' '.join(replaced[:first_line_number])
+        title = ' '.join(replaced[:(first_line_number - 1)])
+        title = ' '.join(title.split()) # remove double spaces
         rebuilt = replaced[first_line_number:][1::2]
+        # remove the last line number, it doesn't have a cooresponding space at the end
+        rebuilt = rebuilt[:-1]
+
+        # remove the first line, as it's the whitespace between the title and the bill text
+        rebuilt = rebuilt[1:]
 
         return {
             "title": title.lstrip(),
             "bill_array": rebuilt
         }
-
-    @classmethod
-    def from_filename(cls, filename: str) -> Any: # TODO: fix this so it shows PdfParser
-        return cls(fitz.open(filename))
