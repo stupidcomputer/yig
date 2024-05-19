@@ -1,6 +1,8 @@
 import leglib #billdb import BillDB, BillQuery, QueryField, QueryAll
+from leglib.billdb import BillDB, BillQuery, QueryField, QueryAll
+from leglib.parsers import HSYIGPdfParser
 
-parser = leglib.parsers.HSYIGPdfParser.from_filename(
+parser = HSYIGPdfParser.from_filename(
     filename="YIGVolunteerBook2024.pdf",
     confname="HSVolunteer"
 )
@@ -8,19 +10,19 @@ parser.parse()
 
 print(len(parser.bills))
 
-db = leglib.billdb.BillDB()
+db = BillDB()
 db.add_conference(parser=parser)
 
-allbills = len(db.search(query=leglib.billdb.QueryAll))
+allbills = len(db.search(query=QueryAll))
 
-bluelen = len(db.search(query=leglib.billdb.BillQuery(color=leglib.billdb.QueryField.Colors.Blue)))
-whitelen = len(db.search(query=leglib.billdb.BillQuery(color=leglib.billdb.QueryField.Colors.White)))
-redlen = len(db.search(query=leglib.billdb.BillQuery(color=leglib.billdb.QueryField.Colors.Red)))
+bluelen = len(db.search(query=BillQuery(color=QueryField.Colors.Blue)))
+whitelen = len(db.search(query=BillQuery(color=QueryField.Colors.White)))
+redlen = len(db.search(query=BillQuery(color=QueryField.Colors.Red)))
 
-senatelen = len(db.search(query=leglib.billdb.BillQuery(assembly=leglib.billdb.QueryField.Assemblies.Senate)))
-houselen = len(db.search(query=leglib.billdb.BillQuery(assembly=leglib.billdb.QueryField.Assemblies.House)))
+senatelen = len(db.search(query=BillQuery(assembly=QueryField.Assemblies.Senate)))
+houselen = len(db.search(query=BillQuery(assembly=QueryField.Assemblies.House)))
 
-franklincount = len(db.search(query=leglib.billdb.BillQuery(school="Franklin")))
+franklincount = len(db.search(query=BillQuery(school="Franklin")))
 
 print(allbills)
 print(redlen, whitelen, bluelen, redlen + whitelen + bluelen)

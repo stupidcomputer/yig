@@ -1,5 +1,5 @@
-from common import Bill, CCEColors, CCEAssemblies
-from parsers import BookParser
+from .common import Bill, CCEColors, CCEAssemblies
+from .parsers import BookParser
 
 from typing import Type, Self
 from dataclasses import dataclass

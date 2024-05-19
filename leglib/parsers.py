@@ -3,8 +3,8 @@ from typing import Any, Self, ClassVar
 from itertools import groupby
 from dataclasses import dataclass
 
-from lib import FitzBlockWrapper
-from common import Bill
+from .lib import FitzBlockWrapper
+from .common import Bill
 
 @dataclass
 class BookParser:
