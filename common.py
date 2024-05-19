@@ -49,6 +49,8 @@ class BillCode:
                 str(self.docketplacement)
             )
 
+        self.conference: None | str = None # to be filled in with BillDB
+
     def __str__(self):
         return "{} {} - {}-{}-{}".format(
             self.color,

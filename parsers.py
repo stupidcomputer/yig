@@ -1,13 +1,31 @@
 import fitz
-from typing import Any
+from typing import Any, Self, ClassVar
+from itertools import groupby
+from dataclasses import dataclass
 
 from lib import FitzBlockWrapper
 from common import Bill
 
-class HSYIGPdfParser:
-    def __init__(self, document: fitz.Document):
-        self.document = document
+@dataclass
+class BookParser:
+    # class variables
+    humanname: ClassVar[str] = "Generic BookParser parent class."
+    description: ClassVar[str] = """
+        A generic description of the abilities of this BookParser.
+    """
 
+    # everything else
+    document: fitz.Document
+    confname: str
+
+    @classmethod
+    def from_filename(cls, filename: str, confname: str):
+        return cls(
+            document=fitz.open(filename),
+            confname=confname
+        )
+
+class HSYIGPdfParser(BookParser):
     @staticmethod
     def _words_in_superstring(words: list[str], superstring: str) -> bool:
         for word in words:
@@ -141,6 +159,9 @@ class HSYIGPdfParser:
                 bill_text=pretty_printed["bill_array"],
                 title=pretty_printed["title"]
             ))
+
+        for bill in bills: # add the conference name to each
+            bill.code.conference = self.confname
 
         self.bills = bills
 
