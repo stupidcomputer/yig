@@ -1,4 +1,3 @@
-import leglib #billdb import BillDB, BillQuery, QueryField, QueryAll
 from leglib.billdb import BillDB, BillQuery, QueryField, QueryAll
 from leglib.parsers import HSYIGPdfParser
 

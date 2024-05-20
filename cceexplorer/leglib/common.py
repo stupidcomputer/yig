@@ -87,3 +87,75 @@ class Bill:
     @property
     def bill_text_concat(self):
         return ''.join(self.bill_text)
+
+    @property
+    def url(self):
+        if self.code.conference:
+            return "/legislation/" + '/'.join([
+                self.code.conference,
+                self.code.color,
+                self.code.assembly,
+                str(self.code.year),
+                str(self.code.committee),
+                str(self.code.docketplacement)
+            ])
+        else:
+            return "/legislation/" + '/'.join([
+                "defaultconf",
+                self.code.color,
+                self.code.assembly,
+                str(self.code.year),
+                str(self.code.committee),
+                str(self.code.docketplacement)
+            ])
+
+    @property
+    def committee_url(self):
+        if self.code.conference:
+            return "/legislation/" + '/'.join([
+                self.code.conference,
+                self.code.color,
+                self.code.assembly,
+                str(self.code.year),
+                str(self.code.committee)
+            ])
+        else:
+            return "/legislation/" + '/'.join([
+                "defaultconf",
+                self.code.color,
+                self.code.assembly,
+                str(self.code.year),
+                str(self.code.committee)
+            ])
+
+    @property
+    def assembly_url(self):
+        if self.code.conference:
+            return "/legislation/" + '/'.join([
+                self.code.conference,
+                self.code.color,
+                self.code.assembly,
+                str(self.code.year),
+            ])
+        else:
+            return "/legislation/" + '/'.join([
+                "defaultconf",
+                self.code.color,
+                self.code.assembly,
+                str(self.code.year),
+            ])
+
+    @property
+    def color_url(self):
+        if self.code.conference:
+            return "/legislation/" + '/'.join([
+                self.code.conference,
+                self.code.color,
+                str(self.code.year),
+            ])
+        else:
+            return "/legislation/" + '/'.join([
+                "defaultconf",
+                self.code.color,
+                str(self.code.year),
+            ])

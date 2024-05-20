@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %} testing title {% endblock %}
+{% block defcontent %}
+    <h1>{{ bills[0].code.color }} {{ bills[0].code.assembly }}</h1>
+
+    {% for bill in bills %}
+    <div class="container border-black">
+        <a href="{{ bill.url }}">({{bill.code.assembly[0]}}{{bill.code.committee}}/{{bill.code.docketplacement}}) {{ bill.title }}</a>
+        <p>Sponsors: {{ bill.sponsors }}</p>
+        <p>School: {{ bill.school }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}
+

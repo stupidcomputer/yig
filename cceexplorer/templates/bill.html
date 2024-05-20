@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} cceexplorer - {{ bill.title }} {% endblock %}
+{% block defcontent %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3 border border-dark rounded">
+                <h1>{{ bill.code.stringrep }}</h1>
+                <p><i>{{ bill.title }}</i></p>
+                <p>Introduced by {{ bill.sponsors }} (of {{ bill.school }}) within the {{ bill.subcommittee }} subcommittee</p>
+                <hr>
+                <ul>
+                    <li><a href="{{ bill.committee_url }}">Go to this bill's committee</a></li>
+                    <li><a href="{{ bill.assembly_url }}">Go to this bill's assembly</a></li>
+                    <li><a href="{{ bill.color_url }}">Go to this bill's color grouping</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-7 border border-dark rounded">
+                <br>
+                {% for line in bill.bill_text %}
+                {% if line == "" %}
+                {% endif %}
+                <p>{{ line }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

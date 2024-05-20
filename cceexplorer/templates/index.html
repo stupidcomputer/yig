@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %} testing title {% endblock %}
+{% block defcontent %}
+    <h1>Welcome to cceexplorer</h1>
+    <p><i>an interactive database with {{ number_bills }} bills and {{ number_conferences }} conferences</i></p>
+    <p>here's all of them, down here!</p>
+    <ul>
+        {% for bill in bills %}
+        <li>
+            <a href="{{ bill.url }}">{{ bill.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

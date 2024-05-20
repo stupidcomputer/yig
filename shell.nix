@@ -4,5 +4,6 @@
     nativeBuildInputs = with pkgs; [
         buildPackages.python311Packages.pymupdf
         buildPackages.python311Packages.flask
+        buildPackages.python311Packages.flask-bootstrap
     ];
 }

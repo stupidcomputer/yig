@@ -26,10 +26,11 @@ class BillQuery:
     """
     Holds a query for the BillDB.
     """
-    color: CCEColors | QueryField = QueryField.Any
-    assembly: CCEAssemblies | QueryField = QueryField.Any
+    color: str | CCEColors | QueryField = QueryField.Any
+    assembly: str | CCEAssemblies | QueryField = QueryField.Any
     committee: int | QueryField = QueryField.Any
     year: int | QueryField = QueryField.Any
+    order: int | QueryField = QueryField.Any
     subcommittee: str | QueryField = QueryField.Any
     sponsors: str | QueryField = QueryField.Any
     school: str | QueryField = QueryField.Any
@@ -98,11 +99,16 @@ class BillDB:
         results = []
         for bill in self.bills:
             try:
+#                print("debug, q: {}, b: {}".format(str(query.committee), str(bill.code.committee)))
                 self.code_enum_match(bill, query, "color")
                 self.code_enum_match(bill, query, "assembly")
 
                 if not query.committee == QueryField.Any:
                     if not query.committee == bill.code.committee:
+                        raise SearchNotSatisified()
+
+                if not query.order == QueryField.Any:
+                    if not query.order == bill.code.docketplacement:
                         raise SearchNotSatisified()
 
                 if not query.committee == QueryField.Any:
