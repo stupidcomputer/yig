@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import LegislativeText, LegislationBook
+
+admin.site.register(LegislativeText)
+admin.site.register(LegislationBook)

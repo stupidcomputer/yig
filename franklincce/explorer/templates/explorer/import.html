@@ -1,0 +1,10 @@
+<form action="{% url 'import_books' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="text" name="bookname">
+<input type="file" name="bookpdf">
+<input type="submit" value="Import PDF">
+</form>
+
+{% if just_imported %}
+thanks for the import!
+{% endif %}
