@@ -1,0 +1,79 @@
+body {
+    font-family: sans-serif;
+}
+
+nav#navbar {
+    border-bottom: 1px solid black; /* block for top bar */
+    padding-bottom: 10px;
+    display: flex; /* make it from left to right */
+    flex-direction: row;
+}
+
+#leftnav {
+    padding-right: 10px;
+}
+
+#rightnav {
+    padding-left: 10px;
+
+    /* make this part right justified */
+    margin-left: auto;
+    margin-right: 0;
+}
+
+#legcontainer {
+    display: flex;
+    flex-direction: row;
+
+    gap: 5px;
+}
+
+#leginfo {
+    width: 15em;
+}
+
+#legislation {
+    width: 100%;
+}
+
+@media only screen and (max-width: 280px) {
+    #rightnav {
+        display: none;
+    }
+}
+@media only screen and (max-width: 570px) {
+    #legcontainer {
+        flex-direction: column;
+    }
+    #leginfo {
+        width: 100%;
+    }
+}
+
+.no-margin-top {
+    margin-top: 0px;
+}
+
+.boxed {
+    margin-top: 10px;
+    padding: 5px;
+    padding-top: 0px;
+    border: solid 1px;
+    border-radius: 5px;
+}
+
+.wrapword {
+    white-space: -moz-pre-wrap !important;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    white-space: -webkit-pre-wrap;
+    word-break: break-all;
+    white-space: normal;
+}
+
+.legnumbers {
+    text-align: right;
+    user-select: none;
+}

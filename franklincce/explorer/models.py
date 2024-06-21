@@ -5,6 +5,8 @@ from .lib.parsers import HSYIG, HSMUN
 import io
 import fitz
 
+from collections import namedtuple
+
 class LegislationBook(models.Model):
     class ConferenceType(models.TextChoices):
         MIDDLE = "M", _("Middle School")
@@ -106,3 +108,7 @@ class LegislativeText(models.Model):
             self.committee,
             self.docket_order,
         )
+
+    def get_lines(self):
+        cls = namedtuple('LegLine', ['linenumber', 'linetext'])
+        return [cls(i + 1, j) for i, j in enumerate(self.text.split('\n'))]

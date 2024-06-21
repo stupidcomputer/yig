@@ -1,9 +1,24 @@
-<h1>{{ legislation.legislation_title }}</h1>
+{% extends "explorer/base.html" %}
 
-<i>{{ legislation.assembly }}/{{ legislation.committee }}/{{ legislation.docket_order }}</i>
+{% block content %}
+<div id="legcontainer">
+    <div id="leginfo" class="boxed">
+        <h1 class="no-margin-top wrapword">{{ legislation.legislation_title }}</h1>
 
-<p>Sponsored by {{ legislation.sponsors }} of {{ legislation.school }}</p>
+        <i>{{ legislation.assembly }}/{{ legislation.committee }}/{{ legislation.docket_order }}</i>
 
-<blockquote>
-    {{ legislation.text }}
-</blockquote>
+        <p>Sponsored by {{ legislation.sponsors }} of {{ legislation.school }}</p>
+    </div>
+
+    <div id="legislation" class="boxed">
+        <table>
+            {% for line in lines %}
+            <tr>
+                <td class="legnumbers">{{ line.linenumber }}</td>
+                <td>{{ line.linetext }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}

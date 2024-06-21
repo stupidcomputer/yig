@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% if page_title %}
+        <title>explorer - {{ title }}</title>
+        {% else %}
+        <title>explorer</title>
+        {% endif %}
+
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+
+    <body>
+        <nav id="navbar">
+            <div id="leftnav">
+                <a href="/explorer">explorer</a>
+            </div>
+            <div id="rightnav">
+                <a href="/explorer/all">all</a>
+                <a href="/explorer/topics">by topic</a>
+                <a href="/explorer/search">search</a>
+                <a href="/explorer/stats">stats</a>
+            </div>
+        </nav>
+
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>
