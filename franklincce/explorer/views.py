@@ -27,3 +27,13 @@ def view_legislation(request, legislation_id):
         "lines": legislation.get_lines()
     }
     return render(request, "explorer/legislation.html", context)
+
+def view_conference(request, conference_id):
+    book = get_object_or_404(LegislationBook, pk=conference_id)
+    results = LegislativeText.objects.filter(from_book=book)
+    context = {
+        "book": book,
+        "legislation": results,
+        "sample": results[0]
+    }
+    return render(request, "explorer/conference.html", context)

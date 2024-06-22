@@ -1,13 +1,13 @@
 {% extends "explorer/base.html" %}
 
 {% block content %}
-<div id="legcontainer">
-    {% if legislation.is_bill %}
-        <link rel="stylesheet" type="text/css" href="/static/tn.css" />
-    {% elif legislation.is_resolution %}
-        <link rel="stylesheet" type="text/css" href="/static/un.css" />
-    {% endif %}
+{% if legislation.is_bill %}
+    <link rel="stylesheet" type="text/css" href="/static/tn.css" />
+{% elif legislation.is_resolution %}
+    <link rel="stylesheet" type="text/css" href="/static/un.css" />
+{% endif %}
 
+<div id="legcontainer">
     <div id="leginfo" class="boxed">
         <h1 class="no-margin-top">{{ legislation.legislation_title }}</h1>
 
@@ -15,7 +15,7 @@
 
         <p>Sponsored by {{ legislation.sponsors }} of {{ legislation.school }}</p>
 
-        <p>Presented as part of the {{ legislation.from_book.name }} conference</p>
+        <p>Presented as part of the <a href="/explorer/conference/{{ legislation.from_book.id }}">{{ legislation.from_book.name }}</a> conference</p>
     </div>
 
     <div id="legislation" class="boxed">

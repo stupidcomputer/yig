@@ -131,5 +131,3 @@ class LegislativeText(models.Model):
         if self.assembly in ["RGA", "BGA", "WGA", "GEN"]:
             return True
         return False
-
-

@@ -6,4 +6,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("all/", views.all, name="all"),
     path("legislation/<int:legislation_id>/", views.view_legislation, name="viewleg"),
+    path("conference/<int:conference_id>/", views.view_conference, name="viewconf"),
 ]

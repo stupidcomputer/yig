@@ -1,0 +1,19 @@
+{% extends "explorer/base.html" %}
+
+{% block content %}
+{% if sample.is_bill %}
+    <link rel="stylesheet" type="text/css" href="/static/tn.css" />
+{% elif sample.is_resolution %}
+    <link rel="stylesheet" type="text/css" href="/static/un.css" />
+{% endif %}
+
+<div class="boxed">
+    <h1>{{ book.name }} Conference</h1>
+
+    <ul>
+        {% for text in legislation %}
+        <li><a href="/explorer/legislation/{{ text.id }}">{{ text.legislation_title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
