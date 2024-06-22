@@ -59,19 +59,14 @@ nav#navbar {
     width: 100%;
 }
 
-@media only screen and (max-width: 280px) {
-    #rightnav {
-        display: none;
-    }
+h1, h2, h3, h4, h5, h6 {
+    color: var(--accented-text-color);
+    word-wrap: break-word;
 }
-@media only screen and (max-width: 570px) {
-    #legcontainer {
-        flex-direction: column;
-        padding-right: 10px;
-    }
-    #leginfo {
-        width: 100%;
-    }
+
+p, td, i, ul, li {
+    color: var(--text-color);
+    font-size: 16px;
 }
 
 .no-margin-top {
@@ -84,7 +79,7 @@ nav#navbar {
     padding-top: 0px;
     border: solid 1px;
     background-color: var(--component-bg-color);
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 .legnumbers {
@@ -92,10 +87,37 @@ nav#navbar {
     user-select: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: var(--accented-text-color);
+@media only screen and (max-width: 280px) {
+    #rightnav {
+        display: none;
+    }
+}
+@media only screen and (max-width: 570px) {
+    nav#navbar {
+        padding-bottom: 10px;
+    }
+    #legcontainer {
+        flex-direction: column;
+        padding-right: 10px;
+    }
+    #leginfo {
+        width: 100%;
+    }
 }
 
-p, td, i, ul, li {
-    color: var(--text-color);
+@media (pointer: coarse)  {
+    #legcontainer {
+        flex-direction: column;
+        padding-right: 10px;
+    }
+    #leginfo {
+        width: 100%;
+    }
+    p, td, i, ul, li {
+        font-size: 26px;
+    }
+    nav#navbar {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
 }
