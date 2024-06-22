@@ -2,12 +2,20 @@
 
 {% block content %}
 <div id="legcontainer">
-    <div id="leginfo" class="boxed">
-        <h1 class="no-margin-top wrapword">{{ legislation.legislation_title }}</h1>
+    {% if legislation.is_bill %}
+        <link rel="stylesheet" type="text/css" href="/static/tn.css" />
+    {% elif legislation.is_resolution %}
+        <link rel="stylesheet" type="text/css" href="/static/un.css" />
+    {% endif %}
 
-        <i>{{ legislation.assembly }}/{{ legislation.committee }}/{{ legislation.docket_order }}</i>
+    <div id="leginfo" class="boxed">
+        <h1 class="no-margin-top">{{ legislation.legislation_title }}</h1>
+
+        <p><i>{{ legislation.assembly }}/{{ legislation.committee }}/{{ legislation.docket_order }}</i></p>
 
         <p>Sponsored by {{ legislation.sponsors }} of {{ legislation.school }}</p>
+
+        <p>Presented as part of the {{ legislation.from_book.name }} conference</p>
     </div>
 
     <div id="legislation" class="boxed">

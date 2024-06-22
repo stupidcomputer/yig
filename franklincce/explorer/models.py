@@ -112,3 +112,24 @@ class LegislativeText(models.Model):
     def get_lines(self):
         cls = namedtuple('LegLine', ['linenumber', 'linetext'])
         return [cls(i + 1, j) for i, j in enumerate(self.text.split('\n'))]
+
+    def is_bill(self):
+        if self.assembly in [
+            "RHB",
+            "BHB",
+            "WHB",
+            "RSB",
+            "BSB",
+            "WSB",
+            "SEN",
+            "HOU",
+        ]:
+            return True
+        return False
+
+    def is_resolution(self):
+        if self.assembly in ["RGA", "BGA", "WGA", "GEN"]:
+            return True
+        return False
+
+

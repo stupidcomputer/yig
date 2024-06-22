@@ -1,12 +1,36 @@
+:root {
+    --component-bg-color: rgba(10, 10, 10, 0.7);
+    --text-color: rgb(150, 150, 150);
+    --accented-text-color: rgb(255, 255, 255);
+}
+
 body {
     font-family: sans-serif;
 }
 
+a {
+    color: lightblue;
+}
+
+a:active {
+    color: orangered;
+}
+
+a:visited {
+    color: mediumpurple;
+}
+
+::-moz-selection ::selection {
+    color: blue;
+}
+
 nav#navbar {
-    border-bottom: 1px solid black; /* block for top bar */
-    padding-bottom: 10px;
     display: flex; /* make it from left to right */
     flex-direction: row;
+    background-color: var(--component-bg-color);
+    background-clip: padding-box;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #leftnav {
@@ -24,8 +48,7 @@ nav#navbar {
 #legcontainer {
     display: flex;
     flex-direction: row;
-
-    gap: 5px;
+    gap: 10px;
 }
 
 #leginfo {
@@ -44,6 +67,7 @@ nav#navbar {
 @media only screen and (max-width: 570px) {
     #legcontainer {
         flex-direction: column;
+        padding-right: 10px;
     }
     #leginfo {
         width: 100%;
@@ -59,21 +83,19 @@ nav#navbar {
     padding: 5px;
     padding-top: 0px;
     border: solid 1px;
+    background-color: var(--component-bg-color);
     border-radius: 5px;
-}
-
-.wrapword {
-    white-space: -moz-pre-wrap !important;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    white-space: -webkit-pre-wrap;
-    word-break: break-all;
-    white-space: normal;
 }
 
 .legnumbers {
     text-align: right;
     user-select: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--accented-text-color);
+}
+
+p, td, i, ul, li {
+    color: var(--text-color);
 }

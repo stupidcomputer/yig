@@ -1,19 +1,22 @@
 {% extends "explorer/base.html" %}
 
 {% block content %}
-<h1>Welcome to explorer</h1>
+<link rel="stylesheet" type="text/css" href="/static/tn.css" />
+<div class="boxed">
+    <h1>Welcome to explorer</h1>
 
-<p><i>an interactive database for YMCA CCE legislation</i></p>
+    <p><i>an interactive database for YMCA CCE legislation</i></p>
 
-<h2>Some randomly selected legislation</h2>
+    <h2>Some randomly selected legislation</h2>
 
-{% if legislative_texts %}
-    <ul>
-    {% for text in legislative_texts %}
-    <li><a href="{% url 'viewleg' text.id %}">{{ text.legislation_title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No texts available</p>
-{% endif %}
+    {% if legislative_texts %}
+        <ul>
+        {% for text in legislative_texts %}
+        <li><a href="{% url 'viewleg' text.id %}">{{ text.legislation_title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No texts available</p>
+    {% endif %}
+</div>
 {% endblock content %}

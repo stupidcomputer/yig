@@ -1,15 +1,17 @@
 {% extends "explorer/base.html" %}
 
 {% block content %}
-<h1>All legislative texts</h1>
-
-{% if legislative_texts %}
-    <ul>
-    {% for text in legislative_texts %}
-    <li><a href="{% url 'viewleg' text.id %}">{{ text.legislation_title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No texts available</p>
-{% endif %}
+<link rel="stylesheet" type="text/css" href="/static/tn.css" />
+<div class="boxed">
+    <h1>All legislative texts</h1>
+    {% if legislative_texts %}
+        <ul>
+        {% for text in legislative_texts %}
+        <li><a href="{% url 'viewleg' text.id %}">{{ text.legislation_title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No texts available</p>
+    {% endif %}
+</div>
 {% endblock content %}
