@@ -1,4 +1,4 @@
 yig
 ===
 
-A tool to explore past bills, manage delegations, etc.
+`yig` is a django app for exploring bills and resolutions in previous YMCA CCE conferences.
