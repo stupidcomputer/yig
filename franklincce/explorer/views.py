@@ -37,3 +37,19 @@ def view_conference(request, conference_id):
         "sample": results[0]
     }
     return render(request, "explorer/conference.html", context)
+
+def stats(request):
+    all_legislation = len(LegislativeText.objects.all())
+    context = {
+        "all":          all_legislation,
+        "red_senate":   len(LegislativeText.objects.filter(assembly="RSB")),
+        "blue_senate":  len(LegislativeText.objects.filter(assembly="BSB")),
+        "white_senate": len(LegislativeText.objects.filter(assembly="WSB")),
+        "red_house":    len(LegislativeText.objects.filter(assembly="RHB")),
+        "blue_house":   len(LegislativeText.objects.filter(assembly="BHB")),
+        "white_house":  len(LegislativeText.objects.filter(assembly="WHB")),
+        "red_ga":       len(LegislativeText.objects.filter(assembly="RGA")),
+        "blue_ga":      len(LegislativeText.objects.filter(assembly="BGA")),
+        "white_ga":     len(LegislativeText.objects.filter(assembly="WGA")),
+    }
+    return render(request, "explorer/stats.html", context)

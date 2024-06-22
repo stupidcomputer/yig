@@ -1,0 +1,28 @@
+{% extends "explorer/base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/tn.css" />
+<div class="boxed">
+    <h1>Explorer statistics</h1>
+
+    <p>Total bills: {{ all }}</p>
+
+    <p>Red Senate Bills: {{ red_senate }}</p>
+
+    <p>White Senate Bills: {{ white_senate }}</p>
+
+    <p>Blue Senate Bills: {{ blue_senate }}</p>
+
+    <p>Red House Bills: {{ red_house }}</p>
+
+    <p>White House Bills: {{ white_house }}</p>
+
+    <p>Blue House Bills: {{ blue_house }}</p>
+
+    <p>Red General Assembly Bills: {{ red_ga }}</p>
+
+    <p>White General Assembly Bills: {{ white_ga }}</p>
+
+    <p>Blue General Assembly Bills: {{ blue_ga }}</p>
+</div>
+{% endblock content %}
