@@ -1,3 +1,4 @@
+# pull official base image
 FROM python:3.11.4-slim-buster
 
 # set work directory
@@ -12,9 +13,5 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-
 # copy project
 COPY . .
-
-RUN mkdir /var/www/static -p
-RUN python3 manage.py collectstatic --noinput
