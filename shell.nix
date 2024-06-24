@@ -1,4 +1,4 @@
 { pkgs ? import <nixpkgs> {} }:
   pkgs.mkShell {
-    nativeBuildInputs = with pkgs.python311Packages; [ django pymupdf docker-compose ];
+    nativeBuildInputs = with pkgs.python311Packages; [ django pymupdf ] ++ [pkgs.docker-compose] ;
   }
