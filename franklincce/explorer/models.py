@@ -100,6 +100,11 @@ class LegislativeText(models.Model):
     sponsors = models.CharField(max_length=256)
     from_book = models.ForeignKey(LegislationBook, on_delete=models.CASCADE)
     legislation_title = models.CharField(max_length=512)
+    country = models.CharField(
+        max_length=512,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{}/{}-{}-{}".format(
