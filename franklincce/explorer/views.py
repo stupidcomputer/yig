@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 
-from .models import LegislativeText, LegislationBook
+from .models import LegislativeText, LegislationBook, LegislationClassification
 
 from random import sample
 
@@ -53,3 +53,30 @@ def stats(request):
         "white_ga":     len(LegislativeText.objects.filter(assembly="WGA")),
     }
     return render(request, "explorer/stats.html", context)
+
+def get_all_classifications(request):
+    classifications = LegislationClassification.objects.all()
+    return render(request, "explorer/classifications.html", {
+        "classifications": classifications,
+    })
+
+def get_all_classified_by_id(request, classification_id):
+    classification = get_object_or_404(LegislationClassification, pk=classification_id)
+    # this is very expensive; make a way for this to be cached please?
+
+    all_texts = LegislativeText.objects.all()
+    all_terms = classification.text_to_match.split(',')
+    all_terms = [i.lower() for i in all_terms]
+
+    matches = []
+
+    for text in all_texts:
+        for term in all_terms:
+            if term in text.text.lower():
+                matches.append(text)
+                break
+
+    return render(request, "explorer/results.html", {
+        "legislation": matches,
+        "result_name": "All legislation in topic {}".format(classification.name)
+    })

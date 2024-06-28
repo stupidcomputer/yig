@@ -31,8 +31,6 @@ class LegislationBook(models.Model):
     has_performed_export = models.BooleanField(default=False)
 
     def save(self, **kwargs):
-        super().save(**kwargs)
-
         if not self.has_performed_export:
             self.has_performed_export = True
             super().save(**kwargs)
@@ -136,3 +134,13 @@ class LegislativeText(models.Model):
         if self.assembly in ["RGA", "BGA", "WGA", "GEN"]:
             return True
         return False
+
+class LegislationClassification(models.Model):
+    name = models.CharField(max_length=256, help_text="Name of this classification.")
+    text_to_match = models.CharField(
+        max_length=256,
+        help_text="a comma seperated list of keywords to include in the classification. spaces and dashes are discluded."
+    )
+
+    def __str__(self):
+        return "{}".format(self.name)

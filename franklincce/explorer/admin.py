@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import LegislativeText, LegislationBook
+from explorer import models
 
 class LegislativeTextAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'legislation_title', 'school')
@@ -8,5 +8,11 @@ class LegislativeTextAdmin(admin.ModelAdmin):
 class LegislationBookAdmin(admin.ModelAdmin):
     exclude = ("has_performed_export",)
 
-admin.site.register(LegislativeText, LegislativeTextAdmin)
-admin.site.register(LegislationBook, LegislationBookAdmin)
+to_register = [
+    [models.LegislativeText, LegislativeTextAdmin],
+    [models.LegislationBook, LegislationBookAdmin],
+    [models.LegislationClassification]
+]
+for i in to_register:
+    admin.site.register(*i)
+    print(i)

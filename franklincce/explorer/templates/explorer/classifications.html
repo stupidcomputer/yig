@@ -1,0 +1,15 @@
+{% extends "explorer/base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/tn.css" />
+
+<div class="boxed">
+    <h1>All topics</h1>
+
+    <ul>
+        {% for topic in classifications %}
+        <li><a href="/explorer/topics/{{ topic.id }}">{{ topic.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
