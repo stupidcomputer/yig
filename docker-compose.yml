@@ -1,6 +1,6 @@
 services:
   web:
-    build: ./app
+    build: ./franklincce
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./franklincce/:/usr/src/app/
