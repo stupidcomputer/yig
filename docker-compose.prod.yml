@@ -5,7 +5,12 @@ services:
       dockerfile: Dockerfile.prod
     command: gunicorn franklincce.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/home/app/web/staticfiles
+      - type: volume
+        source: static_volume
+        target: /home/app/web/staticfiles
+      - type: bind
+        source: ./db.sqlite3
+        target: /home/app/web/db.sqlite3
     expose:
       - 8000
     env_file:
@@ -20,3 +25,4 @@ services:
       - web
 volumes:
   static_volume:
+  db_persist:

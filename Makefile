@@ -4,3 +4,7 @@ prod: # execute this target on the production server in the nix-shell
 	sed "s/change_me/$(shell shuf -i1-1000000 -n1)/g" .env.prod.orig > .env.prod
 	sed "s|change_me|$(shell dd if=/dev/urandom bs=1024 count=1|base64)|g" .env.prod.orig > .env.prod
 	docker-compose -f docker-compose.prod.yml up -d --build
+
+permissions:
+	chmod -f 660 db.sqlite3
+	echo "make sure that db.sqlite3 is owned by group users"
