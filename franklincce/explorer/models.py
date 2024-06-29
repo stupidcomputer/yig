@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .lib.parsers import HSYIG, HSMUN
+from .leglib import HSYIG24, HSMUN23
 import io
 import fitz
 
@@ -40,9 +40,9 @@ class LegislationBook(models.Model):
         the_file = io.BytesIO(self.pdf.file.file.read())
         the_document = fitz.open(stream=the_file)
         if self.import_strategy == "HSYIGBookParser":
-            parsed = HSYIG(the_document)
+            parsed = HSYIG24(the_document)
         elif self.import_strategy == "HSMUNBookParser":
-            parsed = HSMUN(the_document)
+            parsed = HSMUN23(the_document)
         else:
             return
 
