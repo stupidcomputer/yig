@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+import random
 
 from pathlib import Path
 
@@ -18,6 +19,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    print("[!!!] YOU'RE USING A RANDOM SECRET_KEY -- CHANGE THIS IF YOU'RE GOING INTO PROD")
+    SECRET_KEY = random.randint(1, 100000000000000)
 
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 

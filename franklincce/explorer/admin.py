@@ -15,4 +15,3 @@ to_register = [
 ]
 for i in to_register:
     admin.site.register(*i)
-    print(i)
