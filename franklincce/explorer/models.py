@@ -47,24 +47,7 @@ class LegislationBook(models.Model):
             return
 
         for text in parsed.output:
-            print(text["code"])
-            codesplit = text["code"].split('/')
-            assembly = codesplit[0]
-            dashsplit = codesplit[1].split('-')
-            year = 2000 + int(dashsplit[0])
-            committee = int(dashsplit[1])
-            docket_order = int(dashsplit[2])
-            text = LegislativeText(
-                assembly=assembly,
-                year=year,
-                committee=committee,
-                docket_order=docket_order,
-                school=text["school"],
-                sponsors=text["sponsors"],
-                legislation_title=text["title"],
-                text=text["bill_text"],
-                from_book=self
-            )
+            text = LegislativeText(**text, from_book=self)
             text.save()
 
     def __str__(self):
@@ -93,6 +76,7 @@ class LegislativeText(models.Model):
     text = models.TextField()
     year = models.IntegerField()
     committee = models.IntegerField()
+    category = models.CharField(max_length=256)
     docket_order = models.IntegerField()
     school = models.CharField(max_length=256)
     sponsors = models.CharField(max_length=256)

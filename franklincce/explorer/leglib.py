@@ -163,45 +163,63 @@ class CCEParserBase():
         for legislative_text in splitted:
             # there are some blocks that contain just one value
             # and are aligned to some x value on the pdf
-
             # it's an easy way to extract stuff
+
+            try:
+                country = get_block_by_x_value(legislative_text, 139).text.rstrip()
+                country = country.replace("Sponsor: ", "").lstrip()
+            except AttributeError:
+                country = None # this is a yig bill
+
+            try:
+                category = get_block_by_x_value(legislative_text, 151).text.rstrip().lstrip()
+            except AttributeError:
+                try:
+                    category = get_block_by_x_value(legislative_text, 153).text.rstrip().lstrip()
+                except AttributeError:
+                    print([(i.text, i.x0) for i in legislative_text])
+
             leg_code = get_block_by_x_value(legislative_text, 88).text.rstrip()
 
             try:
-                school = get_block_by_x_value(legislative_text, 177).text.rstrip()
+                school = get_block_by_x_value(legislative_text, 177).text.rstrip().lstrip()
             except AttributeError:
                 try:
-                    school = get_block_by_x_value(legislative_text, 186).text.rstrip()
+                    school = get_block_by_x_value(legislative_text, 186).text.rstrip().lstrip()
                 except AttributeError:
                     school = "you tell me, man"
 
             try:
-                sponsors = get_block_by_x_value(legislative_text, 163).text.rstrip()
+                sponsors = get_block_by_x_value(legislative_text, 163).text.rstrip().lstrip()
             except AttributeError:
                 try:
-                    sponsors = get_block_by_x_value(legislative_text, 166).text.rstrip()
+                    sponsors = get_block_by_x_value(legislative_text, 166).text.rstrip().lstrip()
                 except AttributeError:
                     sponsors = "you tell me, man"
-            try:
-                subcommittee = get_block_by_x_value(legislative_text, 151).text.rstrip()
-            except AttributeError:
-                try:
-                    subcommittee = get_block_by_x_value(legislative_text, 153).text.rstrip()
-                except AttributeError:
-                    subcommittee = "you tell me, man"
+
             the_rest = ''.join([i.text for i in legislative_text[12:]])
-            print([i.text for i in legislative_text[12:]])
             handled = self.handle_the_rest(the_rest)
             title = handled["title"]
             bill_text = handled["bill_text"]
+            
+            codesplit = leg_code.split('/')
+            assembly = codesplit[0]
+            dashsplit = codesplit[1].split('-')
+            year = 2000 + int(dashsplit[0])
+            committee = int(dashsplit[1])
+            docket_order = int(dashsplit[2])
 
             output.append({
-                "code": leg_code,
+                "assembly": assembly,
+                "year": year,
+                "committee": committee,
+                "docket_order": docket_order,
+                "category": category,
+                "country": country,
                 "school": school,
                 "sponsors": sponsors,
-                "subcommittee": subcommittee,
-                "title": title,
-                "bill_text": bill_text
+                "legislation_title": title,
+                "text": bill_text
             })
 
         self.output = output
@@ -255,22 +273,33 @@ class HSYIG24(CCEParserBase):
 
             # it's an easy way to extract stuff
             legislative_text = remove_block_by_x_value(legislative_text, 565) # remove page numbers
+            category = get_block_by_x_value(legislative_text, 139).text.rstrip().lstrip()
             leg_code = get_block_by_x_value(legislative_text, 88).text.rstrip()
-            school = get_block_by_x_value(legislative_text, 163).text.rstrip()
-            sponsors = get_block_by_x_value(legislative_text, 152).text.rstrip()
-            subcommittee = get_block_by_x_value(legislative_text, 139).text.rstrip()
+            school = get_block_by_x_value(legislative_text, 163).text.rstrip().lstrip()
+            sponsors = get_block_by_x_value(legislative_text, 152).text.rstrip().lstrip()
             the_rest = ''.join([i.text for i in legislative_text[6:]])
             handled = self.handle_the_rest(the_rest)
             title = handled["title"]
             bill_text = handled["bill_text"]
 
+            codesplit = leg_code.split('/')
+            assembly = codesplit[0]
+            dashsplit = codesplit[1].split('-')
+            year = 2000 + int(dashsplit[0])
+            committee = int(dashsplit[1])
+            docket_order = int(dashsplit[2])
+
             output.append({
-                "code": leg_code,
+                "assembly": assembly,
+                "year": year,
+                "committee": committee,
+                "docket_order": docket_order,
+                "category": category,
+                "country": None, # this is a yig bill
                 "school": school,
                 "sponsors": sponsors,
-                "subcommittee": subcommittee,
-                "title": title,
-                "bill_text": bill_text
+                "legislation_title": title,
+                "text": bill_text
             })
 
         self.output = output
@@ -287,8 +316,9 @@ def main():
         return
     
     for text in doc.output:
-        print("{} ---------------------------- {}".format(
-            text["title"], text["bill_text"]
+        print("{} {} {} ---------------------------- {}".format(
+            text["country"], text["category"],
+            text["legislation_title"], text["text"]
         ))
 
 if __name__ == "__main__":
