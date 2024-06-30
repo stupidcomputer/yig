@@ -1,0 +1,38 @@
+---
+title: "Operative verbs reference"
+---
+
+- Accepts
+- Adopts
+- Agrees
+- Appeals
+- Approves
+- Authorizes
+- Calls upon
+- Commends
+- Considers
+- Decides
+- Declares
+- Determines
+- Directs
+- Emphasizes
+- Encourages
+- Endorses
+- Expresses appreciation
+- Expresses hope
+- Invites
+- Notes
+- Notes with approval
+- Notes with concern
+- Notes with satisfaction
+- Proclaims
+- Reaffirms
+- Recommends
+- Reminds
+- Repeals
+- Requests
+- Resolves
+- Suggests
+- Supports
+- Takes note
+- Urges
