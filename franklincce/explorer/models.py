@@ -36,6 +36,10 @@ class Country(models.Model):
         return self.name
 
 class LegislationBook(models.Model):
+    class Meta:
+        verbose_name = "Book"
+        verbose_name_plural = "Books"
+
     class ConferenceType(models.TextChoices):
         MIDDLE = "M", _("Middle School")
         HIGH = "H", _("High School")
@@ -88,6 +92,10 @@ class LegislationBook(models.Model):
         return "{}".format(self.name)
 
 class LegislativeText(models.Model):
+    class Meta:
+        verbose_name = "Legislation"
+        verbose_name_plural = "Legislation"
+
     class Assemblies(models.TextChoices):
         RGA = "RGA", _("Red General Assembly")
         BGA = "BGA", _("Blue General Assembly")
@@ -112,7 +120,7 @@ class LegislativeText(models.Model):
     committee = models.IntegerField()
     category = models.CharField(max_length=256)
     docket_order = models.IntegerField()
-    school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
     sponsors = models.CharField(max_length=256)
     from_book = models.ForeignKey(LegislationBook, on_delete=models.CASCADE)
     legislation_title = models.CharField(max_length=512)
@@ -150,6 +158,10 @@ class LegislativeText(models.Model):
         return False
 
 class LegislationClassification(models.Model):
+    class Meta:
+        verbose_name = "Classification"
+        verbose_name_plural = "Classifications"
+
     name = models.CharField(max_length=256, help_text="Name of this classification.")
     text_to_match = models.CharField(
         max_length=256,

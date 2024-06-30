@@ -81,12 +81,11 @@ def get_all_classified_by_id(request, classification_id):
         "result_name": "All legislation in topic {}".format(classification.name)
     })
 
-
 def get_all_by_school(request, school_id):
     school = get_object_or_404(School, pk=school_id)
 
-    return render(request, "explorer/school.html", {
-        "school_name": school.name,
+    return render(request, "explorer/results.html", {
+        "result_name": "All legislation by {}".format(school.name),
         "legislation": school.legislativetext_set.all()
     })
 
@@ -94,6 +93,6 @@ def get_all_by_country(request, country_id):
     country = get_object_or_404(Country, pk=country_id)
 
     return render(request, "explorer/results.html", {
-        "result_name": "All bills by country {}".format(country.name),
+        "result_name": "All legislation by country {}".format(country.name),
         "legislation": country.legislativetext_set.all()
     })
