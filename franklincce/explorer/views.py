@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 
-from .models import LegislativeText, LegislationBook, LegislationClassification, School
+from .models import LegislativeText, LegislationBook, LegislationClassification, School, Country
 
 from random import sample
 
@@ -88,4 +88,12 @@ def get_all_by_school(request, school_id):
     return render(request, "explorer/school.html", {
         "school_name": school.name,
         "legislation": school.legislativetext_set.all()
+    })
+
+def get_all_by_country(request, country_id):
+    country = get_object_or_404(Country, pk=country_id)
+
+    return render(request, "explorer/results.html", {
+        "result_name": "All bills by country {}".format(country.name),
+        "legislation": country.legislativetext_set.all()
     })

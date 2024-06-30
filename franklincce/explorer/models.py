@@ -7,7 +7,7 @@ import fitz
 
 from collections import namedtuple
 
-def ForeignInstantiateIfNone(model, name):
+def InstantiateIfNone(model, name):
     """
     Search the model for instances by name.
     If there's none, then create one.
@@ -22,6 +22,15 @@ def ForeignInstantiateIfNone(model, name):
 
 class School(models.Model):
     name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+class Country(models.Model):
+    name = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name_plural = "Countries"
 
     def __str__(self):
         return self.name
@@ -66,7 +75,12 @@ class LegislationBook(models.Model):
             return
 
         for text in parsed.output:
-            text["school"] = ForeignInstantiateIfNone(School, text["school"])
+            text["school"] = InstantiateIfNone(School, text["school"])
+            if text["country"]:
+                # there's sometimes "Dominican Republic" and "Dominican Republic 2"
+                # handle that gracefully
+                text["country"] = text["country"].replace(" 2", "")
+                text["country"] = InstantiateIfNone(Country, text["country"])
             text = LegislativeText(**text, from_book=self)
             text.save()
 
@@ -102,11 +116,7 @@ class LegislativeText(models.Model):
     sponsors = models.CharField(max_length=256)
     from_book = models.ForeignKey(LegislationBook, on_delete=models.CASCADE)
     legislation_title = models.CharField(max_length=512)
-    country = models.CharField(
-        max_length=512,
-        null=True,
-        blank=True
-    )
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "{}/{}-{}-{}".format(

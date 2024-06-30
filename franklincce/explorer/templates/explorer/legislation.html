@@ -15,6 +15,10 @@
 
         <p>Sponsored by {{ legislation.sponsors }} of <a href="/explorer/schools/{{ legislation.school.id}}">{{ legislation.school }}</a></p>
 
+        {% if legislation.country %}
+        <p>The delegates above represented the <a href="/explorer/countries/{{ legislation.country.id }}">Delegation of {{ legislation.country }}</a>.</p>
+        {% endif %}
+
         <p>Presented as part of the <a href="/explorer/conference/{{ legislation.from_book.id }}">{{ legislation.from_book.name }}</a> conference</p>
     </div>
 

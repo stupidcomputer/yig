@@ -11,4 +11,5 @@ urlpatterns = [
     path("topics/<int:classification_id>/", views.get_all_classified_by_id, name="classificationview"),
     path("topics/", views.get_all_classifications, name="classificationsview"),
     path("schools/<int:school_id>/", views.get_all_by_school, name="schoolview"),
+    path("countries/<int:country_id>/", views.get_all_by_country, name="countryview"),
 ]

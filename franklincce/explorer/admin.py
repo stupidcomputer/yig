@@ -13,6 +13,7 @@ to_register = [
     [models.LegislationBook, LegislationBookAdmin],
     [models.LegislationClassification],
     [models.School],
+    [models.Country],
 ]
 for i in to_register:
     admin.site.register(*i)
