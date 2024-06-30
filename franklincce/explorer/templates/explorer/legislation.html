@@ -13,7 +13,7 @@
 
         <p><i>{{ legislation.assembly }}/{{ legislation.committee }}/{{ legislation.docket_order }}</i></p>
 
-        <p>Sponsored by {{ legislation.sponsors }} of {{ legislation.school }}</p>
+        <p>Sponsored by {{ legislation.sponsors }} of <a href="/explorer/schools/{{ legislation.school.id}}">{{ legislation.school }}</a></p>
 
         <p>Presented as part of the <a href="/explorer/conference/{{ legislation.from_book.id }}">{{ legislation.from_book.name }}</a> conference</p>
     </div>

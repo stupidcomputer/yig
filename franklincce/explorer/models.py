@@ -7,6 +7,25 @@ import fitz
 
 from collections import namedtuple
 
+def ForeignInstantiateIfNone(model, name):
+    """
+    Search the model for instances by name.
+    If there's none, then create one.
+    """
+    filtered = model.objects.filter(name__exact=name)
+    try:
+        return filtered[0]
+    except IndexError:
+        obj = model(name=name)
+        obj.save()
+        return obj
+
+class School(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
 class LegislationBook(models.Model):
     class ConferenceType(models.TextChoices):
         MIDDLE = "M", _("Middle School")
@@ -47,6 +66,7 @@ class LegislationBook(models.Model):
             return
 
         for text in parsed.output:
+            text["school"] = ForeignInstantiateIfNone(School, text["school"])
             text = LegislativeText(**text, from_book=self)
             text.save()
 
@@ -78,7 +98,7 @@ class LegislativeText(models.Model):
     committee = models.IntegerField()
     category = models.CharField(max_length=256)
     docket_order = models.IntegerField()
-    school = models.CharField(max_length=256)
+    school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
     sponsors = models.CharField(max_length=256)
     from_book = models.ForeignKey(LegislationBook, on_delete=models.CASCADE)
     legislation_title = models.CharField(max_length=512)

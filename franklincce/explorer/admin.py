@@ -11,7 +11,8 @@ class LegislationBookAdmin(admin.ModelAdmin):
 to_register = [
     [models.LegislativeText, LegislativeTextAdmin],
     [models.LegislationBook, LegislationBookAdmin],
-    [models.LegislationClassification]
+    [models.LegislationClassification],
+    [models.School],
 ]
 for i in to_register:
     admin.site.register(*i)
