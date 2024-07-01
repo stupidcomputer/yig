@@ -168,8 +168,8 @@ class LegislativeText(models.Model):
 
 class LegislationClassification(models.Model):
     class Meta:
-        verbose_name = "Classification"
-        verbose_name_plural = "Classifications"
+        verbose_name = "Topic"
+        verbose_name_plural = "Topics"
 
     name = models.CharField(max_length=256, help_text="Name of this classification.")
     text_to_match = models.CharField(
@@ -179,3 +179,7 @@ class LegislationClassification(models.Model):
 
     def __str__(self):
         return "{}".format(self.name)
+
+    def get_absolute_url(self):
+        our_name = __class__.__name__
+        return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})

@@ -54,14 +54,8 @@ def stats(request):
     }
     return render(request, "explorer/stats.html", context)
 
-def get_all_classifications(request):
-    classifications = LegislationClassification.objects.all()
-    return render(request, "explorer/classifications.html", {
-        "classifications": classifications,
-    })
-
-def get_all_classified_by_id(request, classification_id):
-    classification = get_object_or_404(LegislationClassification, pk=classification_id)
+def get_all_classified_by_id(request, model_id):
+    classification = get_object_or_404(LegislationClassification, pk=model_id)
     # this is very expensive; make a way for this to be cached please?
 
     all_texts = LegislativeText.objects.all()
@@ -117,3 +111,4 @@ get_all_by_country = get_all_by_x(Country)
 
 get_all_schools = get_all_xs(School)
 get_all_countries = get_all_xs(Country)
+get_all_classifications = get_all_xs(LegislationClassification)
