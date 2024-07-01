@@ -81,18 +81,15 @@ def get_all_classified_by_id(request, classification_id):
         "result_name": "All legislation in topic {}".format(classification.name)
     })
 
-def get_all_by_school(request, school_id):
-    school = get_object_or_404(School, pk=school_id)
+def get_all_by_x(model):
+    def wrapped(request, model_id):
+        instance = get_object_or_404(model, pk=model_id)
+        return render(request, "explorer/results.html", {
+            "result_name": "All legislation by {}".format(instance.name),
+            "legislation": instance.legislativetext_set.all()
+        })
+    
+    return wrapped
 
-    return render(request, "explorer/results.html", {
-        "result_name": "All legislation by {}".format(school.name),
-        "legislation": school.legislativetext_set.all()
-    })
-
-def get_all_by_country(request, country_id):
-    country = get_object_or_404(Country, pk=country_id)
-
-    return render(request, "explorer/results.html", {
-        "result_name": "All legislation by country {}".format(country.name),
-        "legislation": country.legislativetext_set.all()
-    })
+get_all_by_school = get_all_by_x(School)
+get_all_by_country = get_all_by_x(Country)
