@@ -91,5 +91,29 @@ def get_all_by_x(model):
     
     return wrapped
 
+def get_all_xs(model):
+    def wrapper(request):
+        instances = model.objects.all()
+        try:
+            # what the heck, django?????
+            plural = model._meta.verbose_name_plural
+        except:
+            plural = model.__name__ + "s"
+
+        plural = plural.lower()
+
+        return render(request, "explorer/listing.html", {
+            "result_name": "All {}".format(plural),
+            "instances": instances,
+        })
+
+    return wrapper
+
+def return_groups(request):
+    return render(request, "explorer/by_group.html", {})
+
 get_all_by_school = get_all_by_x(School)
 get_all_by_country = get_all_by_x(Country)
+
+get_all_schools = get_all_xs(School)
+get_all_countries = get_all_xs(Country)

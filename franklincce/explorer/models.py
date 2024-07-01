@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 from .leglib import HSYIG24, HSMUN23
 import io
@@ -26,6 +27,10 @@ class School(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        our_name = __class__.__name__
+        return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
+
 class Country(models.Model):
     name = models.CharField(max_length=256)
 
@@ -34,6 +39,10 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        our_name = __class__.__name__
+        return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
 
 class LegislationBook(models.Model):
     class Meta:
