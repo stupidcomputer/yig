@@ -7,7 +7,11 @@ from random import sample
 
 def index(request):
     legislative_texts = list(LegislativeText.objects.all())
-    legislative_texts = sample(legislative_texts, 5)
+    try:
+        legislative_texts = sample(legislative_texts, 5)
+    except ValueError:
+        # there's not enough texts, so just return nothing
+        legislative_texts = []
     context = {
         "legislative_texts": legislative_texts,
     }
