@@ -18,5 +18,5 @@ urlpatterns = [
     path("schools/", views.get_all_schools, name="School"),
     path("countries/", views.get_all_countries, name="Country"),
     path("groups/", views.return_groups, name="Groups"),
-    path("sponsors/", views.get_all_sponsors, name="Sponsors")
+    path("sponsors/", views.get_all_sponsors, name="Sponsor")
 ]

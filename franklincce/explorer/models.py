@@ -202,3 +202,5 @@ class LegislationClassification(models.Model):
     def get_absolute_url(self):
         our_name = __class__.__name__
         return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
+
+models_in_index = [LegislationClassification, School, Country, Sponsor]

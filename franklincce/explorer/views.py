@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.http import HttpResponse
 
 from .models import (
@@ -7,7 +8,8 @@ from .models import (
     LegislationClassification,
     School,
     Country,
-    Sponsor
+    Sponsor,
+    models_in_index,
 )
 
 from random import sample
@@ -115,7 +117,17 @@ def get_all_xs(model):
     return wrapper
 
 def return_groups(request):
-    return render(request, "explorer/by_group.html", {})
+    listing = {}
+    for model in models_in_index:
+        try:
+            name = model._meta.verbose_name.lower()
+        except:
+            name = model.__name__.lower()
+
+        listing[name] = reverse(model.__name__)
+
+    print(listing)
+    return render(request, "explorer/by_group.html", { "listing": listing })
 
 get_all_by_school = get_all_by_x(School)
 get_all_by_country = get_all_by_x(Country)

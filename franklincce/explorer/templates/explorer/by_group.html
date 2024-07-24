@@ -7,10 +7,9 @@
     <h1>View legislation</h1>
 
     <ul>
-        <li><a href="/explorer/countries/">By country</a></li>
-        <li><a href="/explorer/schools/">By school</a></li>
-        <li><a href="/explorer/topics/">By topic</a></li>
-        <li><a href="/explorer/sponsors/">By sponsor</a></li>
+        {% for name, url in listing.items %}
+            <li><a href="{{ url }}">By {{ name }}</a></li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock content %}
