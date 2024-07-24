@@ -15,6 +15,7 @@ to_register = [
     [models.School],
     [models.Country],
     [models.Sponsor],
+    [models.Category],
 ]
 for i in to_register:
     admin.site.register(*i)

@@ -15,8 +15,10 @@ urlpatterns = [
     path("schools/<int:model_id>/", views.get_all_by_school, name="School.detail"),
     path("countries/<int:model_id>/", views.get_all_by_country, name="Country.detail"),
     path("sponsors/<int:model_id>/", views.get_all_by_sponsor, name="Sponsor.detail"),
+    path("categories/<int:model_id>/", views.get_all_by_category, name="Category.detail"),
     path("schools/", views.get_all_schools, name="School"),
     path("countries/", views.get_all_countries, name="Country"),
     path("groups/", views.return_groups, name="Groups"),
-    path("sponsors/", views.get_all_sponsors, name="Sponsor")
+    path("sponsors/", views.get_all_sponsors, name="Sponsor"),
+    path("categories/", views.get_all_categories, name="Category"),
 ]

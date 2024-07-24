@@ -24,6 +24,8 @@
         <p>The delegates above represented the <a href="/explorer/countries/{{ legislation.country.id }}">Delegation of {{ legislation.country }}</a>.</p>
         {% endif %}
 
+        <p>This legislation was filed in the <a href="/explorer/categories/{{ legislation.category.id }}">{{ legislation.category }}</a> category</p>
+
         <p>Presented as part of the <a href="/explorer/conference/{{ legislation.from_book.id }}">{{ legislation.from_book.name }}</a> conference</p>
     </div>
 

@@ -54,6 +54,19 @@ class Sponsor(models.Model):
         our_name = __class__.__name__
         return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
 
+class Category(models.Model):
+    name = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+    def get_absolute_url(self):
+        our_name = __class__.__name__
+        return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
+
 class LegislationBook(models.Model):
     class Meta:
         verbose_name = "Book"
@@ -105,6 +118,10 @@ class LegislationBook(models.Model):
                 text["country"] = text["country"].replace(" 2", "")
                 text["country"] = InstantiateIfNone(Country, text["country"])
 
+            if not text["category"] or text["category"] == "Select One--":
+                text["category"] = "No category"
+            text["category"] = InstantiateIfNone(Category, text["category"])
+
             sponsors = text["sponsors"].split(', ')
             sponsors = [InstantiateIfNone(Sponsor, sponsor) for sponsor in sponsors]
 
@@ -146,7 +163,7 @@ class LegislativeText(models.Model):
     text = models.TextField()
     year = models.IntegerField()
     committee = models.IntegerField()
-    category = models.CharField(max_length=256)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     docket_order = models.IntegerField()
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     sponsors = models.ManyToManyField(Sponsor, blank=True)
@@ -203,4 +220,4 @@ class LegislationClassification(models.Model):
         our_name = __class__.__name__
         return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
 
-models_in_index = [LegislationClassification, School, Country, Sponsor]
+models_in_index = [LegislationClassification, School, Country, Sponsor, Category]

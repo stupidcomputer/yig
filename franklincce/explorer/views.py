@@ -9,6 +9,7 @@ from .models import (
     School,
     Country,
     Sponsor,
+    Category,
     models_in_index,
 )
 
@@ -132,8 +133,10 @@ def return_groups(request):
 get_all_by_school = get_all_by_x(School)
 get_all_by_country = get_all_by_x(Country)
 get_all_by_sponsor = get_all_by_x(Sponsor)
+get_all_by_category = get_all_by_x(Category)
 
 get_all_schools = get_all_xs(School)
 get_all_countries = get_all_xs(Country)
 get_all_sponsors = get_all_xs(Sponsor)
+get_all_categories = get_all_xs(Category)
 get_all_classifications = get_all_xs(LegislationClassification)
