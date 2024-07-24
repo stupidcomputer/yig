@@ -44,6 +44,16 @@ class Country(models.Model):
         our_name = __class__.__name__
         return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
 
+class Sponsor(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        our_name = __class__.__name__
+        return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
+
 class LegislationBook(models.Model):
     class Meta:
         verbose_name = "Book"
@@ -94,8 +104,17 @@ class LegislationBook(models.Model):
                 # handle that gracefully
                 text["country"] = text["country"].replace(" 2", "")
                 text["country"] = InstantiateIfNone(Country, text["country"])
+
+            sponsors = text["sponsors"].split(', ')
+            sponsors = [InstantiateIfNone(Sponsor, i) for i in sponsors]
+
+            del text["sponsors"]
+
             text = LegislativeText(**text, from_book=self)
             text.save()
+
+            for sponsor in sponsors:
+                text.upgraded_sponsors.add(sponsor)
 
     def __str__(self):
         return "{}".format(self.name)
@@ -130,7 +149,7 @@ class LegislativeText(models.Model):
     category = models.CharField(max_length=256)
     docket_order = models.IntegerField()
     school = models.ForeignKey(School, on_delete=models.CASCADE)
-    sponsors = models.CharField(max_length=256)
+    sponsors = models.ManyToManyField(Sponsor)
     from_book = models.ForeignKey(LegislationBook, on_delete=models.CASCADE)
     legislation_title = models.CharField(max_length=512)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
