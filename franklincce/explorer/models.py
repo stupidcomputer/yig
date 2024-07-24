@@ -106,7 +106,7 @@ class LegislationBook(models.Model):
                 text["country"] = InstantiateIfNone(Country, text["country"])
 
             sponsors = text["sponsors"].split(', ')
-            sponsors = [InstantiateIfNone(Sponsor, i) for i in sponsors]
+            sponsors = [InstantiateIfNone(Sponsor, sponsor) for sponsor in sponsors]
 
             del text["sponsors"]
 
@@ -114,7 +114,7 @@ class LegislationBook(models.Model):
             text.save()
 
             for sponsor in sponsors:
-                text.upgraded_sponsors.add(sponsor)
+                text.sponsors.add(sponsor)
 
     def __str__(self):
         return "{}".format(self.name)
@@ -149,7 +149,7 @@ class LegislativeText(models.Model):
     category = models.CharField(max_length=256)
     docket_order = models.IntegerField()
     school = models.ForeignKey(School, on_delete=models.CASCADE)
-    sponsors = models.ManyToManyField(Sponsor)
+    sponsors = models.ManyToManyField(Sponsor, blank=True)
     from_book = models.ForeignKey(LegislationBook, on_delete=models.CASCADE)
     legislation_title = models.CharField(max_length=512)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)

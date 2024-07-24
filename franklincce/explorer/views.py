@@ -1,7 +1,14 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 
-from .models import LegislativeText, LegislationBook, LegislationClassification, School, Country
+from .models import (
+    LegislativeText,
+    LegislationBook,
+    LegislationClassification,
+    School,
+    Country,
+    Sponsor
+)
 
 from random import sample
 
@@ -112,7 +119,9 @@ def return_groups(request):
 
 get_all_by_school = get_all_by_x(School)
 get_all_by_country = get_all_by_x(Country)
+get_all_by_sponsor = get_all_by_x(Sponsor)
 
 get_all_schools = get_all_xs(School)
 get_all_countries = get_all_xs(Country)
+get_all_sponsors = get_all_xs(Sponsor)
 get_all_classifications = get_all_xs(LegislationClassification)

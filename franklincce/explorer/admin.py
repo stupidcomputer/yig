@@ -14,6 +14,7 @@ to_register = [
     [models.LegislationClassification],
     [models.School],
     [models.Country],
+    [models.Sponsor],
 ]
 for i in to_register:
     admin.site.register(*i)

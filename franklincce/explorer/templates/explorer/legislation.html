@@ -13,7 +13,12 @@
 
         <p><i>{{ legislation.assembly }}/{{ legislation.committee }}/{{ legislation.docket_order }}</i></p>
 
-        <p>Sponsored by {{ legislation.sponsors }} of <a href="/explorer/schools/{{ legislation.school.id }}">{{ legislation.school }}</a></p>
+        <p>Sponsored by
+        {% for sponsor in legislation.sponsors.all %}
+            <a href="/explorer/sponsors/{{ sponsor.id }}">{{ sponsor.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+            
+        of <a href="/explorer/schools/{{ legislation.school.id }}">{{ legislation.school }}</a></p>
 
         {% if legislation.country %}
         <p>The delegates above represented the <a href="/explorer/countries/{{ legislation.country.id }}">Delegation of {{ legislation.country }}</a>.</p>
