@@ -1,0 +1,15 @@
+{% extends "explorer/base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/tn.css" />
+<div class="boxed">
+    <h1>Search legislation by keyword</h1>
+    <form action="/explorer/search" method="get">
+        <input type="text" id="search_term" name="search_term" />
+        <button type="submit">Execute search</button>
+        <p>
+            You can use this page to search through legislation by keyword. The search is case sensitive, so be careful when pressing your shift key.
+        </p>
+    </form>
+</div>
+{% endblock %}

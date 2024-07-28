@@ -10,6 +10,7 @@ urlpatterns = [
     path("conference/<int:conference_id>/", views.view_conference, name="viewconf"),
     path("topics/<int:model_id>/", views.get_all_classified_by_id, name="LegislationClassification.detail"),
     path("topics/", views.get_all_classifications, name="LegislationClassification"),
+    path("search/", views.handle_search, name="search_legislation"),
 
     # these are named weirdly -- see models.py School and Country definitions
     path("schools/<int:model_id>/", views.get_all_by_school, name="School.detail"),

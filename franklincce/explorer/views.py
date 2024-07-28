@@ -130,6 +130,31 @@ def return_groups(request):
     print(listing)
     return render(request, "explorer/by_group.html", { "listing": listing })
 
+def handle_search(request):
+    try:
+        query = request.GET['search_term']
+    except KeyError:
+        return render(request, "explorer/search.html", {})
+
+    f = LegislativeText.objects.filter
+
+    text_results = f(text__icontains=query)
+    title_results = f(legislation_title__icontains=query)
+    school_results = f(school__name__icontains=query)
+    sponsor_results = f(sponsors__name__icontains=query)
+    country_results = f(country__name__icontains=query)
+
+    
+    return render(request, "explorer/results.html", {
+        "result_name": "Results for search term '{}'".format(query),
+        "legislation": text_results.union(
+            title_results,
+            school_results,
+            sponsor_results,
+            country_results
+        )
+    })
+
 get_all_by_school = get_all_by_x(School)
 get_all_by_country = get_all_by_x(Country)
 get_all_by_sponsor = get_all_by_x(Sponsor)
