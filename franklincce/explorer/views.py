@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.http import HttpResponse
 
@@ -33,6 +34,11 @@ def all(request):
         "legislative_texts": legislative_texts,
     }
     return render(request, "explorer/all.html", context)
+
+def legislation_to_html(legislation):
+    return render_to_string("explorer/comp_legislation.html", {
+        "legislation": legislation,
+    })
 
 def view_legislation(request, legislation_id):
     legislation = get_object_or_404(LegislativeText, pk=legislation_id)
@@ -92,9 +98,11 @@ def get_all_classified_by_id(request, model_id):
 def get_all_by_x(model):
     def wrapped(request, model_id):
         instance = get_object_or_404(model, pk=model_id)
+        legislation = instance.legislativetext_set.all()
+        legislation = [legislation_to_html(i) for i in legislation]
         return render(request, "explorer/results.html", {
             "result_name": "All legislation by {}".format(instance.name),
-            "legislation": instance.legislativetext_set.all()
+            "legislation": legislation
         })
     
     return wrapped
@@ -144,15 +152,17 @@ def handle_search(request):
     sponsor_results = f(sponsors__name__icontains=query)
     country_results = f(country__name__icontains=query)
 
+    results = text_results.union(
+        title_results,
+        school_results,
+        sponsor_results,
+        country_results
+    )
+    results = [legislation_to_html(i) for i in results]
     
     return render(request, "explorer/results.html", {
         "result_name": "Results for search term '{}'".format(query),
-        "legislation": text_results.union(
-            title_results,
-            school_results,
-            sponsor_results,
-            country_results
-        )
+        "legislation": results
     })
 
 get_all_by_school = get_all_by_x(School)

@@ -1,0 +1,38 @@
+{% comment %}
+This is a component -- I'm only using this because:
+    1. I'm too lazy to install django-components, and
+    2. This is the only time a component is necessary, so it doesn't make
+       any sense to take on an extra dependancy.
+{% endcomment %}
+<div class="legcomponent">
+    <a href="/explorer/legislation/{{ legislation.id }}"><h2 class="legtitle">{{ legislation.legislation_title }}</h2></a>
+
+    <div class="legmetadata">
+        <p>
+            <i>{{ legislation.assembly }}/{{ legislation.committee }}/{{ legislation.docket_order }}</i>
+
+            &middot;
+
+            {% for sponsor in legislation.sponsors.all %}
+            <a href="/explorer/sponsors/{{ sponsor.id }}">{{ sponsor.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+
+            &middot;
+
+            <a href="/explorer/schools/{{ legislation.school.id }}">{{ legislation.school }}</a>
+            
+            &middot;
+
+            {% if legislation.country %}
+            <a href="/explorer/countries/{{ legislation.country.id }}"></a>
+
+            &middot;
+            {% endif %}
+            <a href="/explorer/categories/{{ legislation.category.id }}">{{ legislation.category }}</a>
+
+            &middot;
+
+            <a href="/explorer/conference/{{ legislation.from_book.id }}">{{ legislation.from_book.name }}</a>
+        </p>
+    </div>
+</div>

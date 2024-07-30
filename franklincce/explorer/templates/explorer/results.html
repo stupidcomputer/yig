@@ -6,10 +6,12 @@
 <div class="boxed">
     <h1>{{ result_name }}</h1>
 
+    {% autoescape off %}
     <ul>
         {% for text in legislation %}
-        <li><a href="/explorer/legislation/{{ text.id }}">{{ text.legislation_title }}</a></li>
+        {{ text }}
         {% endfor %}
     </ul>
+    {% endautoescape %}
 </div>
 {% endblock content %}
