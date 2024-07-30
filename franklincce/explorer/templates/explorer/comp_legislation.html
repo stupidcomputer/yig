@@ -24,7 +24,7 @@ This is a component -- I'm only using this because:
             &middot;
 
             {% if legislation.country %}
-            <a href="/explorer/countries/{{ legislation.country.id }}"></a>
+            <a href="/explorer/countries/{{ legislation.country.id }}">{{ legislation.country }}</a>
 
             &middot;
             {% endif %}
