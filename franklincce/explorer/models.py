@@ -135,6 +135,10 @@ class LegislationBook(models.Model):
 
     def __str__(self):
         return "{}".format(self.name)
+        
+    def get_absolute_url(self):
+        our_name = __class__.__name__
+        return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
 
 class LegislativeText(models.Model):
     class Meta:
@@ -220,4 +224,11 @@ class LegislationClassification(models.Model):
         our_name = __class__.__name__
         return reverse("{}.detail".format(our_name), kwargs={"model_id": self.id})
 
-models_in_index = [LegislationClassification, School, Country, Sponsor, Category]
+models_in_index = [
+    LegislationClassification,
+    School,
+    Country,
+    Sponsor,
+    Category,
+    LegislationBook
+]
