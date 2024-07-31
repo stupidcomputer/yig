@@ -9,12 +9,14 @@
 
     <h2>Some randomly selected legislation</h2>
 
-    {% if legislative_texts %}
+    {% if legislation %}
+        {% autoescape off %}
         <ul>
-        {% for text in legislative_texts %}
-        <li><a href="{% url 'viewleg' text.id %}">{{ text.legislation_title }}</a></li>
+        {% for text in legislation %}
+        {{ text }}
         {% endfor %}
         </ul>
+        {% endautoescape %}
     {% else %}
         <p>No texts available. If you're the admin, you need to add some texts with the admin interface.</p>
     {% endif %}

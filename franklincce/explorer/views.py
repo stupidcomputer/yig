@@ -16,6 +16,11 @@ from .models import (
 
 from random import sample
 
+def legislation_to_html(legislation):
+    return render_to_string("explorer/comp_legislation.html", {
+        "legislation": legislation,
+    })
+
 def index(request):
     legislative_texts = list(LegislativeText.objects.all())
     try:
@@ -23,8 +28,13 @@ def index(request):
     except ValueError:
         # there's not enough texts, so just return nothing
         legislative_texts = []
+    
+    legislative_texts = [
+        legislation_to_html(text) for text in legislative_texts
+    ]
+
     context = {
-        "legislative_texts": legislative_texts,
+        "legislation": legislative_texts,
     }
     return render(request, "explorer/index.html", context)
 
@@ -34,11 +44,6 @@ def all(request):
         "legislative_texts": legislative_texts,
     }
     return render(request, "explorer/all.html", context)
-
-def legislation_to_html(legislation):
-    return render_to_string("explorer/comp_legislation.html", {
-        "legislation": legislation,
-    })
 
 def view_legislation(request, legislation_id):
     legislation = get_object_or_404(LegislativeText, pk=legislation_id)
